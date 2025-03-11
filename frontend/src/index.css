@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Emblema+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Liter&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+    --font-big-shoulders: "Big Shoulders", sans-serif; 
+    --font-one: "Emblema One", sans-serif;
+    --font-tinos: "Tinos", sans-serif; 
+    --font-liter: "Liter", sans-serif; 
+    --font-oswald: "Oswald", sans-serif; 
+  }
