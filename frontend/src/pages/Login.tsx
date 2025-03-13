@@ -24,7 +24,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-600 rounded-2xl shadow-md">
+      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-600 m-3 rounded-2xl shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-950 dark:text-white">
           Admin Portal
         </h2>

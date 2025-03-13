@@ -65,7 +65,7 @@ const ReportPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-12 p-6 bg-white dark:bg-gray-700 rounded-lg overflow-auto">
+    <div className="max-w-4xl mx-auto mt-12 p-6 bg-white dark:bg-gray-700 rounded-none lg:rounded-lg overflow-auto">
       <span className="text-gray-600 dark:text-gray-300 text-sm mb-4 font-tinos">
         <Link to="/">Home</Link> {" > "}
         <Link to="/reportpage">Report Missing Person</Link>
