@@ -1,10 +1,10 @@
 import { Link, Route, Routes } from "react-router-dom";
-import { Contact, Landing, Login, ReportPage } from "./pages";
+import { Dashboard, Landing, Login, ReportPage } from "./pages";
 import { ModeToggleBtn } from "./components";
 
 function App() {
   return (
-    <section className="w-full min-h-screen flex flex-col overflowx-x-hidden bg-white dark:bg-gray-800">
+    <section className="w-full min-h-screen flex flex-col overflowx-x-hidden bg-gray-50 dark:bg-gray-800">
       {/* Navbar */}
       <nav className="w-full max-w-screen h-16 shadow-gray-100 dark:shadow-gray-800 shadow-sm flex items-center justify-between px-4">
         <span>
@@ -35,7 +35,7 @@ function App() {
           <Route path="/" index element={<Landing />} />
           <Route path="/reportpage" index element={<ReportPage />} />
           <Route path="/adminlogin" index element={<Login />} />
-          <Route path="/contact" index element={<Contact />} />
+          <Route path="dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </section>

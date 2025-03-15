@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 const ReportPage = () => {
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     fullName: "",
     dateOfDisappearance: "",
@@ -18,11 +24,17 @@ const ReportPage = () => {
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+    const files = event.target.files;
+    if (files) {
+      const imageUrls = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setImages((prevImages) => [...prevImages, ...imageUrls]);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   const handleTakePhoto = async () => {
@@ -37,14 +49,20 @@ const ReportPage = () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const ctx = canvas.getContext("2d");
+
         if (ctx) {
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          setImage(canvas.toDataURL("image/png"));
+          const newImage = canvas.toDataURL("image/png");
+
+          // Append new image to existing images
+          setImages((prevImages) => [...prevImages, newImage]);
         }
+
+        // Stop the camera stream
         stream.getTracks().forEach((track) => track.stop());
       }, 1000);
     } catch (error) {
-      alert("Camera access denied or unavailable." + error);
+      alert("Camera access denied or unavailable. " + error);
     }
   };
 
@@ -60,12 +78,17 @@ const ReportPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted Data:", { ...formData, image });
+    console.log("Submitted Data:", { ...formData, images });
     setIsSubmitted(true);
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-12 p-6 bg-white dark:bg-gray-700 rounded-none lg:rounded-lg overflow-auto">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
+      className="max-w-4xl mx-auto mt-12 p-6 bg-white dark:bg-gray-700 rounded-none lg:rounded-lg overflow-auto"
+    >
       <span className="text-gray-600 dark:text-gray-300 text-sm mb-4 font-tinos">
         <Link to="/">Home</Link> {" > "}
         <Link to="/reportpage">Report Missing Person</Link>
@@ -81,12 +104,31 @@ const ReportPage = () => {
 
       {/* Upload Photo Section */}
       <div className="w-full flex flex-col items-start justify-center py-4 px-6 bg-gray-100 dark:bg-gray-600 gap-2 rounded-3xl">
-        {image ? (
-          <img
-            src={image}
-            alt="Uploaded"
-            className="w-40 h-40 object-cover rounded-lg"
-          />
+        {images.length > 0 ? (
+          <div className="flex flex-wrap gap-4">
+            {images.map((imgSrc, index) => (
+              <div key={index} className="relative group">
+                <img
+                  src={imgSrc}
+                  alt="Uploaded"
+                  className="w-24 aspect-square object-cover rounded-lg"
+                />
+
+                {/* Remove Button (Appears on Hover) */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-1 right-1 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                >
+                  <img
+                    src="./icons/bin.svg"
+                    alt="delete"
+                    className="w-6 aspect-square"
+                  />
+                </motion.button>
+              </div>
+            ))}
+          </div>
         ) : (
           <span className="w-8 aspect-square bg-gray-200 rounded-full flex items-center justify-center mb-4 p-2">
             <img
@@ -105,22 +147,27 @@ const ReportPage = () => {
         </span>
 
         <div className="mt-4 flex gap-2 cursor-default">
-          <label className="cursor-pointer bg-[#634aff] py-2 px-3 font-bold text-white rounded-lg">
+          <motion.label
+            whileHover={{ scale: 1.05 }}
+            className="cursor-pointer bg-[#634aff] py-2 px-3 font-bold text-white rounded-lg"
+          >
             Select File
             <input
               type="file"
               accept="image/*"
+              multiple
               className="hidden"
               onChange={handleFileChange}
             />
-          </label>
+          </motion.label>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
             onClick={handleTakePhoto}
             className="bg-[#e1e2e2] text-[#634aff] py-2 px-3 font-bold rounded-lg cursor-pointer"
           >
             Take Photo
-          </button>
+          </motion.button>
         </div>
       </div>
 
@@ -257,12 +304,13 @@ const ReportPage = () => {
         </div>
       </div>
 
-      <button
+      <motion.button
+        whileHover={{ scale: 1.05 }}
         className="mt-6 bg-[#29d8a1] text-white py-2 px-4 rounded-xl cursor-pointer"
         onClick={handleSubmit}
       >
         Submit Report
-      </button>
+      </motion.button>
       <p className="text-sm text-gray-500 dark:text-gray-300 mt-2">
         By submitting this form, you confirm that all information provided is
         accurate to the best of your knowledge.
@@ -291,7 +339,7 @@ const ReportPage = () => {
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

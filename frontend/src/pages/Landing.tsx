@@ -1,4 +1,21 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  ContactModal,
+  PrivacyPolicyModal,
+  TermsOfServiceModal,
+} from "../components";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+};
 
 const Steps = [
   {
@@ -39,9 +56,20 @@ const SuccessStories = [
 ];
 
 const Landing = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalPage, setModalPage] = useState("");
+
   return (
-    <div className="w-full h-24 flex flex-col bg-white dark:bg-gray-800">
-      <section className="w-full flex flex-col items-center justify-center bg-white dark:bg-gray-800">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={staggerContainer}
+      className="w-full min-h-24 flex flex-col bg-white dark:bg-gray-800"
+    >
+      <motion.section
+        variants={fadeIn}
+        className="w-full flex flex-col items-center justify-center bg-white dark:bg-gray-800 pb-2"
+      >
         <h1 className="font-oswald text-4xl text-center text-gray-800 dark:text-white lg:text-6xl mt-32">
           Helping Families Reunite with Their Loved Ones
         </h1>
@@ -50,50 +78,65 @@ const Landing = () => {
           CCTV footage to pinpoint their exact location.
         </p>
 
-        <Link
-          to="/reportpage"
-          className="bg-[#29d8a1] hover:bg-[#71d0b0] text-white font-tinos lg:text-2xl text-xl py-2 px-4 rounded-xl"
-        >
-          <span>Report Missing Person</span>
-        </Link>
-      </section>
+        <motion.div whileHover={{ scale: 1.05 }}>
+          <Link
+            to="/reportpage"
+            className="bg-[#29d8a1] hover:bg-[#71d0b0] text-white font-tinos lg:text-2xl text-xl py-2 px-4 rounded-xl"
+          >
+            <span>Report Missing Person</span>
+          </Link>
+        </motion.div>
+      </motion.section>
 
-      <section className="w-full gap-6 flex flex-col items-center justify-center py-4 bg-white dark:bg-gray-800">
+      <motion.section
+        variants={fadeIn}
+        className="w-full gap-6 flex flex-col items-center justify-center py-4 bg-white dark:bg-gray-800"
+      >
         <h1 className="text-4xl mt-32 font-oswald text-gray-800 dark:text-white">
           How It Works
         </h1>
 
-        <div className="flex flex-wrap p-4 items-center justify-center gap-6">
+        <motion.div
+          variants={staggerContainer}
+          className="flex flex-wrap p-4 items-center justify-center gap-6"
+        >
           {Steps.map((step) => (
             <StepBox
-              key={step.step}
               image={step.image}
               step={step.step.toString()}
               title={step.title}
               description={step.description}
             />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
-      <section className="w-full gap-6 flex flex-col items-center justify-center py-4 bg-white dark:bg-gray-800">
+      <motion.section
+        variants={fadeIn}
+        className="w-full gap-6 flex flex-col items-center justify-center py-4 bg-white dark:bg-gray-800"
+      >
         <h1 className="text-4xl mt-32 text-gray-800 dark:text-white">
           Success Stories
         </h1>
 
-        <div className="flex flex-wrap p-4 items-center justify-center gap-6">
+        <motion.div
+          variants={staggerContainer}
+          className="flex flex-wrap p-4 items-center justify-center gap-6"
+        >
           {SuccessStories.map((story) => (
             <SuccessStoriesBox
-              key={story.title}
               image={story.image}
               title={story.title}
               description={story.description}
             />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
-      <section className="w-full gap-6 flex flex-col items-center justify-center px-4 lg:p-0 bg-white dark:bg-gray-800">
+      <motion.section
+        variants={fadeIn}
+        className="w-full gap-6 flex flex-col items-center justify-center px-4 lg:p-0 bg-white dark:bg-gray-800"
+      >
         <h1 className="text-4xl mt-32 font-bold text-gray-800 dark:text-white">
           Join Our Mission
         </h1>
@@ -107,7 +150,9 @@ const Landing = () => {
           </span>
         </p>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => {
             const shareText =
               "Help reunite missing persons with their families. Share FindThem now! 🌍❤️";
@@ -130,22 +175,64 @@ const Landing = () => {
           className="px-6 py-3 mb-16 bg-[#634aff] text-white font-bold rounded-xl text-lg hover:bg-[#4f3cbf] transition-all duration-200"
         >
           📢 Share Now
-        </button>
-      </section>
+        </motion.button>
+      </motion.section>
 
       <footer className="w-full p-4 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
         <p className="text-sm text-gray-600">
-          © 2025 <b>|</b>{" "}
-          <CustomLink to="privacy-policy">Privacy Policy</CustomLink> <b>|</b>{" "}
-          <CustomLink to="terms-of-service">Terms of Service</CustomLink>{" "}
-          <b>|</b> <CustomLink to="contact">Contact Us</CustomLink>
+          ©&nbsp;2025&nbsp;<b>|</b>&nbsp;
+          <span
+            onClick={() => {
+              setIsModalOpen(true);
+              setModalPage("privacy-policy");
+            }}
+            className="hover:text-[#29d8a1] hover:underline cursor-pointer"
+          >
+            Privacy Policy
+          </span>
+          &nbsp;
+          <b>|</b>&nbsp;
+          <span
+            onClick={() => {
+              setIsModalOpen(true);
+              setModalPage("terms-of-service");
+            }}
+            className="hover:text-[#29d8a1] hover:underline cursor-pointer"
+          >
+            Terms of Service
+          </span>
+          &nbsp;
+          <b>|</b>&nbsp;
+          <span
+            onClick={() => {
+              setIsModalOpen(true);
+              setModalPage("contact");
+            }}
+            className="hover:text-[#29d8a1] hover:underline cursor-pointer"
+          >
+            Contact Us
+          </span>
         </p>
       </footer>
-    </div>
+
+      {/* Modal Box */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-[#00000045]"
+          onClick={() => setIsModalOpen(false)}
+        >
+          {modalContent[modalPage] || <p>Page Not Found</p>}
+        </div>
+      )}
+    </motion.div>
   );
 };
 
-export default Landing;
+const modalContent: { [key: string]: React.ReactNode } = {
+  "privacy-policy": <PrivacyPolicyModal />,
+  "terms-of-service": <TermsOfServiceModal />,
+  contact: <ContactModal />,
+};
 
 interface BoxProps {
   step?: string;
@@ -156,7 +243,11 @@ interface BoxProps {
 
 const StepBox = ({ step, image, title, description }: BoxProps) => {
   return (
-    <span className="w-full lg:w-[30%] min-h-64 flex flex-col items-start justify-center py-4 px-6 bg-gray-100 dark:bg-gray-600 gap-1 rounded-3xl">
+    <motion.span
+      key={step}
+      variants={fadeIn}
+      className="w-full lg:w-[30%] min-h-64 flex flex-col items-start justify-center py-4 px-6 bg-gray-100 dark:bg-gray-600 gap-1 rounded-3xl"
+    >
       <span className="w-8 aspect-square bg-gray-200 rounded-full flex items-center justify-center mb-4 p-2">
         <img
           src={`../icons/${image === "" ? "heart" : image}.svg`}
@@ -171,13 +262,17 @@ const StepBox = ({ step, image, title, description }: BoxProps) => {
       <span className="text-lg text-gray-600 dark:text-white opacity-60">
         {description}
       </span>
-    </span>
+    </motion.span>
   );
 };
 
 const SuccessStoriesBox = ({ image, title, description }: BoxProps) => {
   return (
-    <span className="w-full lg:w-[45%] min-h-56 flex flex-col items-start justify-center py-4 px-6 bg-gray-100 dark:bg-gray-600 gap-1 rounded-3xl">
+    <motion.span
+      key={title}
+      variants={fadeIn}
+      className="w-full lg:w-[45%] min-h-56 flex flex-col items-start justify-center py-4 px-6 bg-gray-100 dark:bg-gray-600 gap-1 rounded-3xl"
+    >
       <span className="w-8 aspect-square bg-gray-200 rounded-full flex items-center justify-center mb-4 p-2">
         <img
           src={`../icons/${image === "" ? "heart" : image}.svg`}
@@ -191,20 +286,8 @@ const SuccessStoriesBox = ({ image, title, description }: BoxProps) => {
       <span className="text-lg text-gray-600 dark:text-white opacity-60">
         {description}
       </span>
-    </span>
+    </motion.span>
   );
 };
 
-const CustomLink = ({
-  to,
-  children,
-}: {
-  to: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <Link to={to} className="hover:text-[#29d8a1] hover:underline">
-      {children}
-    </Link>
-  );
-};
+export default Landing;

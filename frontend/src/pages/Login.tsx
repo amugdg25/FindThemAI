@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,7 +30,12 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-600 m-3 rounded-2xl shadow-md">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
+        className="w-full max-w-md p-8 bg-white dark:bg-gray-600 m-3 rounded-2xl shadow-md"
+      >
         <h2 className="text-2xl font-bold text-center text-gray-950 dark:text-white">
           Admin Portal
         </h2>
@@ -82,7 +93,7 @@ const Login = () => {
         <p className="mt-4 text-xs text-center text-gray-500 dark:text-gray-300">
           Secure login protected by encryption
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
