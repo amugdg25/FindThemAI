@@ -35,7 +35,7 @@ function App() {
           <Route path="/" index element={<Landing />} />
           <Route path="/reportpage" index element={<ReportPage />} />
           <Route path="/adminlogin" index element={<Login />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </section>
