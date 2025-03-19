@@ -70,8 +70,9 @@ def get_missing_persons(db: Session = Depends(get_db)):
 
 ### FOUND PERSON ENDPOINTS ###
 @router.get("/found-person/")
-def get_found_person_info(db: Session = Depends(get_db)):
-
+async def get_found_person_info(image: UploadFile = File(...), db: Session = Depends(get_db)):
+    image_data = await image.read()
+    
     # To be implemented
 
     return {"message": "To be Implemented"}
