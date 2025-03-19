@@ -6,9 +6,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    email = Column(String, unique=True, index=True)
-
+    username = Column(String, unique=True, index=True)
+    password = Column(String)
 
 class MissingPerson(Base):
     __tablename__ = "missing_persons"
@@ -19,7 +18,7 @@ class MissingPerson(Base):
     last_seen_location = Column(String)
     contact_info = Column(String)
     image = Column(LargeBinary)
-    embedding = Column(Vector(128))
+    embedding = Column(Vector(512))
 
 # class FoundPerson(Base):
 #     __tablename__ = "found_persons"
