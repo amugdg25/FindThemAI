@@ -27,13 +27,13 @@ export default function ModeToggleBtn() {
         <img
           src="./icons/light-mode.svg"
           alt="light"
-          className="w-6 aspect-square"
+          className="w-5 aspect-square"
         />
       ) : (
         <img
           src="./icons/dark-mode.svg"
           alt="dark"
-          className="w-6 aspect-square"
+          className="w-5 aspect-square"
         />
       )}
     </button>

@@ -8,12 +8,10 @@ const TermsOfServiceModal = () => {
       exit={{ opacity: 0, scale: 0.8 }}
       className="w-[90%] lg:w-[30%] bg-white dark:bg-gray-600 p-6 rounded-xl shadow-lg text-center"
     >
-      {/* Header */}
       <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
         Terms of Service
       </h2>
 
-      {/* Terms Content */}
       <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
         By using this service, you agree to the following terms and conditions.
         Please read carefully before proceeding.

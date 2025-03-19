@@ -8,12 +8,10 @@ const PrivacyPolicyModal = () => {
       exit={{ opacity: 0, scale: 0.8 }}
       className="w-[90%] lg:w-[30%] bg-white dark:bg-gray-600 p-6 rounded-xl shadow-lg text-center"
     >
-      {/* Header */}
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
         Privacy Policy
       </h2>
 
-      {/* Policy Content */}
       <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
         Your privacy is important to us. This Privacy Policy outlines the types
         of personal information we collect, how we use it, and the steps we take

@@ -32,7 +32,6 @@ const ContactModal = () => {
         </a>
       </p>
 
-      {/* Social Media */}
       <div className="mt-4 flex justify-center space-x-4">
         <a
           href="#"

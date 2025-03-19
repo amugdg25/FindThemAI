@@ -1,0 +1,34 @@
+# Virtual environment
+venv/
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# Database and migration files (if using SQLite)
+*.db
+*.sqlite3
+migrations/
+
+# Logs and temporary files
+*.log
+*.bak
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# Compiled Python files
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Static and cache files
+staticfiles/
+*.cache

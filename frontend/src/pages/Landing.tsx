@@ -70,20 +70,20 @@ const Landing = () => {
         variants={fadeIn}
         className="w-full flex flex-col items-center justify-center bg-white dark:bg-gray-800 pb-2"
       >
-        <h1 className="font-oswald text-4xl text-center text-gray-800 dark:text-white lg:text-6xl mt-32">
+        <h1 className="font-sans font-bold text-4xl text-center text-gray-800 dark:text-white lg:text-5xl mt-32">
           Helping Families Reunite with Their Loved Ones
         </h1>
-        <p className="text-2xl text-center lg:text-3xl text-gray-700 dark:text-gray-300 font-oswald opacity-80 my-6 mb-12">
+        <p className="text-2xl text-center lg:text-3xl text-gray-700 dark:text-gray-300 font-sans opacity-80 my-6 mb-12">
           Our AI-powered platform matches photos of missing persons with live
           CCTV footage to pinpoint their exact location.
         </p>
 
         <motion.div whileHover={{ scale: 1.05 }}>
           <Link
-            to="/reportpage"
+            to="/reportedcases"
             className="bg-[#29d8a1] hover:bg-[#71d0b0] text-white font-tinos lg:text-2xl text-xl py-2 px-4 rounded-xl"
           >
-            <span>Report Missing Person</span>
+            <span>Search Missing Person</span>
           </Link>
         </motion.div>
       </motion.section>

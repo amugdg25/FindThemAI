@@ -1,35 +1,42 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { login } from "../services/api"; // ✅ Import login function
+import { signup } from "../services/api";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-const Login = () => {
+const Signup = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Please enter both email and password.");
+    if (!username || !email || !password || !confirmPassword) {
+      setError("Please fill in all fields.");
       return;
     }
 
-    const response = await login({ email, password });
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
 
-    if (response?.token) {
-      alert("✅ Login successful!");
-      navigate("/dashboard"); // ✅ Redirect to dashboard
+    const response = await signup({ username, email, password });
+
+    if (response?.success) {
+      alert("✅ Signup successful! Please log in.");
+      navigate("/login"); // ✅ Redirect to login
     } else {
-      setError("❌ Invalid email or password.");
+      setError(response?.message || "❌ Signup failed. Try again.");
     }
   };
 
@@ -46,13 +53,26 @@ const Login = () => {
         </h2>
         <div className="p-4 mt-3 text-center bg-gray-50 dark:bg-gray-500 rounded-lg">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-            Sign In
+            Sign Up
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            Enter your credentials to access the administrative panel
+            Create an account to access the administrative panel
           </p>
         </div>
-        <form className="mt-6" onSubmit={handleLogin}>
+        <form className="mt-6" onSubmit={handleSignup}>
+          <div className="mb-4">
+            <label className="block mb-1 text-gray-700 dark:text-gray-100">
+              Username
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+              required
+              className="w-full mt-1 p-2 bg-gray-100 rounded-xl placeholder:text-gray-500 focus:outline-none focus:ring-0 focus:border-transparent"
+            />
+          </div>
           <div className="mb-4">
             <label className="block mb-1 text-gray-700 dark:text-gray-100">
               Email
@@ -78,6 +98,19 @@ const Login = () => {
               required
               className="w-full mt-1 p-2 bg-gray-100 rounded-xl placeholder:text-gray-500 focus:outline-none focus:ring-0 focus:border-transparent"
             />
+          </div>
+          <div className="mb-4 relative">
+            <label className="block mb-1 text-gray-700 dark:text-gray-100">
+              Confirm Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm your password"
+              required
+              className="w-full mt-1 p-2 bg-gray-100 rounded-xl placeholder:text-gray-500 focus:outline-none focus:ring-0 focus:border-transparent"
+            />
             <span
               className="absolute right-3 top-10 cursor-pointer text-gray-400"
               onClick={() => setShowPassword(!showPassword)}
@@ -88,24 +121,19 @@ const Login = () => {
 
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-          <div className="text-right mb-4">
-            <a href="#" className="text-green-500 text-sm hover:underline">
-              Forgot Password?
-            </a>
-          </div>
           <button
             type="submit"
             className="w-full p-3 text-white font-bold bg-green-500 rounded-lg hover:bg-green-600 transition"
           >
-            Login
+            Sign Up
           </button>
         </form>
         <p className="mt-4 text-xs text-center text-gray-500 dark:text-gray-300">
-          Secure login protected by encryption
+          Secure signup protected by encryption
         </p>
       </motion.div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
