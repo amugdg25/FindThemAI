@@ -66,7 +66,16 @@ uvicorn main:app --reload
 
 API Endpoints
 ```
-http://127.0.0.1:8000/
+http://127.0.0.1:8000/api/v1/
+http://127.0.0.1:8000/api/v1/register
+http://127.0.0.1:8000/api/v1/token
+http://127.0.0.1:8000/api/v1/users
+http://127.0.0.1:8000/api/v1/users/<user_id>
+http://127.0.0.1:8000/api/v1/missing_persons
+http://127.0.0.1:8000/api/v1/missing_persons/<person_id>
+http://127.0.0.1:8000/api/v1/missing_persons/<person_id>/image
+http://127.0.0.1:8000/api/v1/found_person
+
 ```
 
  
