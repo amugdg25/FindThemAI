@@ -7,3 +7,7 @@ python-multipart
 pgvector
 opencv-python
 tensorflow
+scipy
+pyjwt
+passlib
+bcrypt
