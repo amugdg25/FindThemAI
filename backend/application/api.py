@@ -79,7 +79,7 @@ def get_users(db: Session = Depends(get_db)):
 
 
 ### MISSING PERSON ENDPOINTS ###
-@router.post("/missing-persons/")
+@router.post("/missing-persons")
 async def create_missing_person(
     name: str = Form(...),
     age: int = Form(None),
@@ -95,7 +95,7 @@ async def create_missing_person(
     created_person = crud.create_missing_person(db, new_person, image_data)
     return {"message": "Missing person entry created successfully", "id": created_person.id}
 
-@router.get("/missing-persons/{person_id}/", response_model=schemas.MissingPersonResponse)
+@router.get("/missing-persons/{person_id}", response_model=schemas.MissingPersonResponse)
 def get_missing_person_info(person_id: int, db: Session = Depends(get_db)):
     person = crud.get_missing_person(db, person_id)    
     if not person:
@@ -111,7 +111,7 @@ def get_missing_person_image(person_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Image not found")
     return Response(content=person.image, media_type="image/jpeg")
 
-@router.get("/missing-persons/", response_model=List[schemas.MissingPersonResponse])
+@router.get("/missing-persons", response_model=List[schemas.MissingPersonResponse])
 def get_missing_persons(db: Session = Depends(get_db)):
     missing_persons = crud.get_missing_persons(db)
     
@@ -122,7 +122,7 @@ def get_missing_persons(db: Session = Depends(get_db)):
 
 
 ### FOUND PERSON ENDPOINTS ###
-@router.post("/found-person/", response_model= schemas.FoundPersonResponse)
+@router.post("/found-person", response_model= schemas.FoundPersonResponse)
 async def get_found_person_info(image: UploadFile = File(...), db: Session = Depends(get_db)):
     try:
         image_data = await image.read()
