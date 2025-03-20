@@ -79,7 +79,7 @@ def get_users(db: Session = Depends(get_db)):
 
 
 ### MISSING PERSON ENDPOINTS ###
-@router.post("/missing-persons")
+@router.post("/create-missing-person")
 async def create_missing_person(
     name: str = Form(...),
     age: int = Form(None),

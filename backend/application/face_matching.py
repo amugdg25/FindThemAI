@@ -5,7 +5,7 @@ import numpy as np
 from base64 import b64encode
 
 
-def match_face(missing_persons, embedding, threshold=0.5): # Added threshold
+def match_face(missing_persons, embedding, threshold=0.2): # Added threshold
 # Compare with stored embeddings using cosine similarity
         best_match: Optional[models.MissingPerson] = None
         best_similarity = float("inf")  # Lower is better for cosine distance
