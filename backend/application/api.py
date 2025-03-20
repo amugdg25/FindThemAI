@@ -73,7 +73,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.get("/users/", response_model=List[schemas.UserResponse])
+@router.get("/users", response_model=List[schemas.UserResponse])
 def get_users(db: Session = Depends(get_db)):
     return crud.get_users(db)
 

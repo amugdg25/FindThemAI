@@ -1,9 +1,10 @@
 import tensorflow as tf
 import numpy as np
 import cv2
+from application.settings import settings
 
 # Load the FaceNet model
-MODEL_PATH = "20180402-114759/20180402-114759.pb"
+MODEL_PATH = settings.MODEL_PATH
 
 def load_model():
     """
