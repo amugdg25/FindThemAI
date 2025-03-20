@@ -11,3 +11,4 @@ scipy
 pyjwt
 passlib
 bcrypt
+pydantic-settings
