@@ -3,7 +3,7 @@
 **AI-Powered Missing Person Identification Web App**
 
 <p align="center">
-  <img src="./logo.svg" width="250" alt="FindThemAI Logo">
+  <img src="./logo.svg" width="100" alt="FindThemAI Logo">
 </p>
 
 ---
