@@ -1,3 +1,5 @@
+### IMPLEMENTATION USING TENSORFLOW WITH PRE-TRAINED FACENET MODEL IN A .pb FILE ###
+
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -67,3 +69,45 @@ def get_face_embedding(face_pixels):
     })
 
     return embedding[0]  # Return the first (and only) embedding
+
+
+
+
+
+
+
+### IMPLEMENTATION USING PRETRAINED MODEL AND TENSORFLOW ###
+
+# import torch
+# import numpy as np
+# import cv2
+# from facenet_pytorch import InceptionResnetV1
+# from torchvision import transforms
+
+# # Load the PyTorch FaceNet model (pretrained on VGGFace2)
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# model = InceptionResnetV1(pretrained="vggface2").eval().to(device)
+
+# # Define preprocessing pipeline
+# transform = transforms.Compose([
+#     transforms.ToPILImage(),
+#     transforms.Resize((160, 160)),
+#     transforms.ToTensor(),
+#     transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),  # Normalize to (-1,1)
+# ])
+
+# def get_face_embedding(face_pixels):
+#     """
+#     Extract 512D face embedding using PyTorch FaceNet.
+    
+#     :param face_pixels: Extracted face image (NumPy array).
+#     :return: 512-dimensional face embedding.
+#     """
+#     # Convert image to tensor and preprocess
+#     face_tensor = transform(face_pixels).unsqueeze(0).to(device)
+
+#     # Get the embedding
+#     with torch.no_grad():
+#         embedding = model(face_tensor)
+
+#     return embedding.cpu().numpy().flatten()  # Convert to NumPy and return
