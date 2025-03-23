@@ -76,7 +76,7 @@ def get_face_embedding(face_pixels):
 
 
 
-### IMPLEMENTATION USING PRETRAINED MODEL AND TENSORFLOW ###
+### IMPLEMENTATION USING facenet-pytorch ###
 
 # import torch
 # import numpy as np
