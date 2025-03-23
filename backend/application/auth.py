@@ -1,4 +1,4 @@
-import jwt
+from jose import jwt
 from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 from fastapi import HTTPException

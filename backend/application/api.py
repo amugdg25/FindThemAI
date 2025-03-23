@@ -82,15 +82,36 @@ def get_users(db: Session = Depends(get_db)):
 @router.post("/create-missing-person")
 async def create_missing_person(
     name: str = Form(...),
-    age: int = Form(None),
-    last_seen_location: str = Form(None),
-    contact_info: str = Form(None),
+    date_of_disappearance: str = Form(...),
+    age: int = Form(...),
+    last_seen_location: str = Form(...),
+    home_address: str = Form(None),
+    places_frequently_visited: str = Form(None),
+    physical_description: str = Form(None),
+    clothing_when_last_seen: str = Form(None),
+    additional_notes: str = Form(None),
+    issuer_mobile_number: str = Form(...),
+    issuer_email_address: str = Form(...),
+    issuer_name: str = Form(...),
+    status: str = Form(None),
     image: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
     image_data = await image.read()
     new_person = schemas.MissingPersonCreate(
-        name=name, age=age, last_seen_location=last_seen_location, contact_info=contact_info
+        name=name,
+        date_of_disappearance=date_of_disappearance,
+        age=age,
+        last_seen_location=last_seen_location,
+        home_address=home_address,
+        places_frequently_visited=places_frequently_visited,
+        physical_description=physical_description,
+        clothing_when_last_seen=clothing_when_last_seen,
+        additional_notes=additional_notes,
+        issuer_mobile_number=issuer_mobile_number,
+        issuer_email_address=issuer_email_address,
+        issuer_name=issuer_name,
+        status=status
     )
     created_person = crud.create_missing_person(db, new_person, image_data)
     return {"message": "Missing person entry created successfully", "id": created_person.id}
@@ -120,6 +141,12 @@ def get_missing_persons(db: Session = Depends(get_db)):
             person.image = b64encode(person.image).decode('utf-8')
     return missing_persons
 
+@router.delete("/missing-persons/{person_id}")
+def delete_missing_person(person_id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_missing_person(db, person_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Person not found")
+    return {"message": "Person deleted successfully"}
 
 ### FOUND PERSON ENDPOINTS ###
 @router.post("/found-person", response_model= schemas.FoundPersonResponse)

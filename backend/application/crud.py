@@ -49,9 +49,18 @@ def create_missing_person(db: Session, person: schemas.MissingPersonCreate, imag
         # Create a new MissingPerson record
         new_person = models.MissingPerson(
             name=person.name,
+            date_of_disappearance=person.date_of_disappearance,
             age=person.age,
             last_seen_location=person.last_seen_location,
-            contact_info=person.contact_info,
+            home_address=person.home_address,
+            places_frequently_visited=person.places_frequently_visited,
+            physical_description=person.physical_description,
+            clothing_when_last_seen=person.clothing_when_last_seen,
+            additional_notes=person.additional_notes,
+            issuer_mobile_number=person.issuer_mobile_number,
+            issuer_email_address=person.issuer_email_address,
+            issuer_name=person.issuer_name,
+            status=person.status,
             image=image_data,
             embedding=embedding
         )
@@ -72,6 +81,14 @@ def create_missing_person(db: Session, person: schemas.MissingPersonCreate, imag
         # General exception handling (for any other errors)
         print(f"Unexpected error occurred: {str(e)}")
         return None
+    
+def delete_missing_person(db: Session, person_id: int):
+    person = db.query(models.MissingPerson).filter(models.MissingPerson.id == person_id).first()
+    if not person:
+        return False  # Not found
+    db.delete(person)
+    db.commit()
+    return True  # Successfully deleted
 
 def get_missing_person(db: Session, person_id: int):
     return db.query(models.MissingPerson).filter(models.MissingPerson.id == person_id).first()

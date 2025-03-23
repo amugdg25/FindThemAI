@@ -2,6 +2,10 @@ import tensorflow as tf
 import numpy as np
 import cv2
 from application.settings import settings
+import os
+
+# Force CPU usage
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # Load the FaceNet model
 MODEL_PATH = settings.MODEL_PATH
