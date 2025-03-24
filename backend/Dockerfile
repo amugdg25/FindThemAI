@@ -12,9 +12,9 @@ WORKDIR /backend
 COPY requirements.txt .  
 
 # Force install dependencies (including Uvicorn)
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir uvicorn  
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir --force-reinstall uvicorn
 
 # Copy the entire backend code
 COPY . .  
