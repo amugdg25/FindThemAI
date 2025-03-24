@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1  
 
 # Set working directory inside the container
-WORKDIR /app  
+WORKDIR /backend
 
 # Copy requirements first (better for Docker layer caching)
 COPY requirements.txt .  
