@@ -22,4 +22,5 @@ EXPOSE 8000
 RUN chmod +x start.sh  # Ensure start.sh is executable
 
 # Start the application
-CMD ["./start.sh"]
+CMD ["sh", "./start.sh"]
+
