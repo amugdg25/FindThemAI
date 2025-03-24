@@ -14,6 +14,9 @@ COPY requirements.txt .
 # Install dependencies safely (skip missing ones)
 RUN pip install --upgrade pip && pip install -r requirements.txt || echo "Skipping failed dependencies"  
 
+# Explicitly install Uvicorn in case it's missing
+RUN pip install uvicorn
+
 # Copy the entire backend code
 COPY . .  
 
