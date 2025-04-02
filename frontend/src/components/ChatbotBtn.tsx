@@ -1,9 +1,9 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 
 const ChatbotBtn = () => {
-  const [showTooltip, setShowTooltip] = useState(false);
+  // const [showTooltip, setShowTooltip] = useState(false);
   const location = useLocation();
 
   // Hide button on chatbot page
@@ -12,11 +12,11 @@ const ChatbotBtn = () => {
   return (
     <div
       className="fixed bottom-6 right-6 flex flex-col items-center"
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
+      // onMouseEnter={() => setShowTooltip(true)}
+      // onMouseLeave={() => setShowTooltip(false)}
     >
       {/* Tooltip Popup */}
-      {showTooltip && (
+      {/* {showTooltip && (
         <motion.div
           className="mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-lg shadow-lg"
           initial={{ opacity: 0, y: 10 }}
@@ -26,7 +26,7 @@ const ChatbotBtn = () => {
         >
           Ask our chatbot!
         </motion.div>
-      )}
+      )} */}
 
       {/* Chatbot Button */}
       <motion.span
