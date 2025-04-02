@@ -17,3 +17,13 @@
     --font-oswald: "Oswald", sans-serif; 
     --font-merriweather: "Merriweather", sans-serif;
   }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari */
+  }
+  
+  .scrollbar-hidden {
+    -ms-overflow-style: none; /* Hide scrollbar for IE, Edge */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+  

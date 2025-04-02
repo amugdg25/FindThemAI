@@ -1,5 +1,6 @@
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import {
+  Chatbot,
   Dashboard,
   InstantSearch,
   Landing,
@@ -8,8 +9,7 @@ import {
   ReportPage,
   Signup,
 } from "./pages";
-import { ModeToggleBtn } from "./components";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { ChatbotBtn, NavBar, ProtectedRoute } from "./components";
 import { useAuth } from "./hooks/useAuth";
 
 function App() {
@@ -22,42 +22,8 @@ function App() {
   };
 
   return (
-    <section className="w-full min-h-screen flex flex-col overflow-x-hidden bg-gray-50 dark:bg-gray-800">
-      <nav className="w-full max-w-screen h-16 shadow-gray-100 dark:shadow-gray-800 shadow-sm flex items-center justify-between px-4">
-        <span>
-          <Link to="/">
-            <p className="text-xl font-merriweather text-gray-800 dark:text-white hidden lg:block">
-              FindThem
-            </p>
-            <img
-              src="./logo.svg"
-              alt="logo"
-              className="w-12 aspect-square block lg:hidden invert dark:invert-0"
-            />
-          </Link>
-        </span>
-
-        <div className="flex gap-2 items-center justify-center">
-          <span className="px-2 py-1 border-2 border-transparent">
-            <ModeToggleBtn />
-          </span>
-          {isAuthenticated ? (
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 font-tinos border-2 border-red-500 hover:bg-white hover:text-red-500 px-2 py-1 rounded-xl transition-all duration-150 text-white"
-            >
-              Logout
-            </button>
-          ) : (
-            <Link
-              to="/adminlogin"
-              className="bg-[#634aff] font-tinos border-2 border-[#634aff] hover:bg-white hover:text-[#634aff] px-2 py-1 rounded-xl transition-all duration-150 text-white"
-            >
-              Admin Login
-            </Link>
-          )}
-        </div>
-      </nav>
+    <section className="w-full min-h-screen flex flex-col overflow-x-hidden bg-gray-50 dark:bg-gray-800 relative">
+      <NavBar handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
 
       <div className="flex-1 w-full">
         <Routes>
@@ -69,6 +35,7 @@ function App() {
             element={<ReportedCases isAuthenticated={isAuthenticated} />}
           />
           <Route path="/instantsearch" element={<InstantSearch />} />
+          <Route path="/chatbot" element={<Chatbot />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
@@ -77,6 +44,8 @@ function App() {
           </Route>
         </Routes>
       </div>
+
+      <ChatbotBtn />
     </section>
   );
 }

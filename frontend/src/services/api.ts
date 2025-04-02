@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = "http://0.0.0.0:9000/api/v1";
 
 export const fetchMissingPersons = async () => {
   try {
