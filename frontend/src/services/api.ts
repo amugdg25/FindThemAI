@@ -1,5 +1,5 @@
 const baseURL = process.env.NODE_ENV === "production"
-  ? "https://findthem-ai.vercel.app/"
+  ? `${import.meta.env.VITE_FRONTEND_BASE_API_URL}/`
   : "";
 
 export const fetchGeminiResponse = async (userMessage: string) => {
@@ -18,7 +18,7 @@ export const fetchGeminiResponse = async (userMessage: string) => {
   }
 };
 
-const API_BASE_URL = `https://fastapi-app-3kx7g3nqga-uc.a.run.app/api/v1`;
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_BASE_API_URL}/api/v1`;
 
 export const fetchMissingPersons = async () => {
   try {
