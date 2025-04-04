@@ -202,7 +202,7 @@ const Chatbot = () => {
     >
       <div className="relative lg:min-w-md w-full h-[85vh] rounded-lg flex flex-col items-center justify-between">
         {messages.length !== 0 ? (
-          <div className="lg:min-w-md rounded-2xl h-12 px-2 flex items-center justify-between bg-gray-600">
+          <div className="w-[90%] lg:max-w-md rounded-2xl h-12 px-2 flex items-center justify-between bg-gray-600">
             <span className="cursor-pointer hover:opacity-70" onClick={goBack}>
               <img
                 src="./icons/back.svg"
@@ -289,7 +289,7 @@ const Chatbot = () => {
           </button>
         )}
 
-        <div className="lg:mb-4 mb-2 flex lg:min-w-md min-h-12 bg-gray-300 dark:bg-gray-600 p-2 rounded-4xl sticky bottom-0">
+        <div className="w-[90%] lg:mb-4 mb-2 flex lg:max-w-md min-h-12 bg-gray-300 dark:bg-gray-600 p-2 rounded-4xl sticky bottom-0">
           <span
             className="w-8 h-8 bg-gray-100 dark:bg-gray-500 hover:bg-gray-200 hover:dark:bg-gray-700 flex items-center justify-center rounded-full cursor-pointer"
             onClick={() => fileInputRef.current?.click()}
