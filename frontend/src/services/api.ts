@@ -1,4 +1,26 @@
-const API_BASE_URL = "http://0.0.0.0:9000/api/v1";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+export const fetchGeminiResponse = async (userMessage: string) => {
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: userMessage }] }],
+      }),
+    });
+
+    const data = await response.json();
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that. 😕";
+  } catch (error) {
+    console.error("Error fetching Gemini response:", error);
+    return "Oops! Something went wrong. Please try again. ⚠️";
+  }
+};
+
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/v1`;
 
 export const fetchMissingPersons = async () => {
   try {
