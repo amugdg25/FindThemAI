@@ -4,7 +4,7 @@ module.exports = async function handler(req, res) {
   }
 
   // Correctly fetch environment variable
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+  const GEMINI_API_KEY = process.env.SECRET_GEMINI_API_KEY;
   if (!GEMINI_API_KEY) {
     console.error("Missing GEMINI_API_KEY in environment variables");
     return res.status(500).json({ error: "Server misconfiguration" });
