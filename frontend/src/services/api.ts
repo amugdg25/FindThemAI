@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = import.meta.env.GEMINI_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export const fetchGeminiResponse = async (userMessage: string) => {
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -20,7 +20,7 @@ export const fetchGeminiResponse = async (userMessage: string) => {
   }
 };
 
-const API_BASE_URL = `${import.meta.env.BACKEND_API_BASE_URL}/api/v1`;
+const API_BASE_URL = `${process.env.BACKEND_API_BASE_URL}/api/v1`;
 
 export const fetchMissingPersons = async () => {
   try {
