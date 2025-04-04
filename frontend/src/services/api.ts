@@ -1,6 +1,10 @@
+const baseURL = process.env.NODE_ENV === "production"
+  ? "https://findthem-ai.vercel.app/"
+  : "";
+
 export const fetchGeminiResponse = async (userMessage: string) => {
   try {
-    const response = await fetch("/api/gemini", {
+    const response = await fetch(`${baseURL}/api/gemini`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userMessage }),
