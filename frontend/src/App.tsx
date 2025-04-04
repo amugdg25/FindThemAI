@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/" index element={<Landing />} />
           <Route path="/adminlogin" index element={<Login />} />
-          <Route path="/adminsignup" index element={<Signup />} />
+          <Route path="/signup" index element={<Signup />} />
           <Route
             path="/reportedcases"
             element={<ReportedCases isAuthenticated={isAuthenticated} />}
