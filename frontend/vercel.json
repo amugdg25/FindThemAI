@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/gemini.cjs",
+        "use": "@vercel/node"
+      }
+    ]
+  }
+  
