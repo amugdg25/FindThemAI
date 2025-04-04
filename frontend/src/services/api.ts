@@ -1,5 +1,5 @@
 const baseURL = process.env.NODE_ENV === "production"
-  ? `${import.meta.env.VITE_FRONTEND_BASE_API_URL}`
+  ? `https://findthem-ai.vercel.app`
   : "";
 
 export const fetchGeminiResponse = async (userMessage: string) => {
