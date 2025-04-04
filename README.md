@@ -6,8 +6,6 @@
   <img src="./logo.svg" width="150" alt="FindThemAI Logo">
 </p>
 
----
-
 ## **🔹 Clone This Repository**
 
 ```sh
