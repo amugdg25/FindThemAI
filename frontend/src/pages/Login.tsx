@@ -46,7 +46,7 @@ const Login = () => {
         </h2>
         <div className="p-4 mt-3 text-center bg-gray-50 dark:bg-gray-500 rounded-lg">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-            Sign In
+            Login
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-300">
             Enter your credentials to access the administrative panel

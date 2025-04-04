@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/gemini.cjs",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "dist",
+          "buildCommand": "npm run build"
+        }
+      }
+    ],
+    "rewrites": [
+      { "source": "/api/gemini", "destination": "/api/gemini.cjs" },
+      { "source": "/(.*)", "destination": "/index.html" }
+    ]
+  }
+  

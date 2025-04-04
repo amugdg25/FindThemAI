@@ -1,4 +1,24 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const baseURL = process.env.NODE_ENV === "production"
+  ? "https://findthem-ai.vercel.app/"
+  : "";
+
+export const fetchGeminiResponse = async (userMessage: string) => {
+  try {
+    const response = await fetch(`${baseURL}/api/gemini`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userMessage }),
+    });
+
+    const data = await response.json();
+    return data.response || "Sorry, I couldn't process that. 😕";
+  } catch (error) {
+    console.error("Error fetching Gemini response:", error);
+    return "Oops! Something went wrong. Please try again. ⚠️";
+  }
+};
+
+const API_BASE_URL = `https://fastapi-app-3kx7g3nqga-uc.a.run.app/api/v1`;
 
 export const fetchMissingPersons = async () => {
   try {

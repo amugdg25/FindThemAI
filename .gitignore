@@ -24,3 +24,5 @@ build/
 # Ignore Environment Variables
 .env
 .env.local
+
+app.yaml
