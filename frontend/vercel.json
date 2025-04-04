@@ -9,13 +9,14 @@
         "src": "package.json",
         "use": "@vercel/static-build",
         "config": {
-          "distDir": "dist"
+          "distDir": "dist",
+          "buildCommand": "npm run build"
         }
       }
     ],
-    "routes": [
-      { "src": "/api/(.*)", "dest": "/api/gemini.cjs" },
-      { "src": "/(.*)", "dest": "/index.html" }
+    "rewrites": [
+      { "source": "/api/(.*)", "destination": "/api/gemini" },
+      { "source": "/(.*)", "destination": "/index.html" }
     ]
   }
   
