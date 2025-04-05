@@ -17,7 +17,8 @@ const Chatbot = () => {
   const [distanceFromBottom, setDistanceFromBottom] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
 
-  // const [missingPersonImage, setMissingPersonImage] = useState<File[]>([]);
+  const [uploadedImage, setUploadedImage] = useState<File | undefined>();
+  const [previewImage, setPreviewImage] = useState<string | undefined>();
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -62,29 +63,32 @@ const Chatbot = () => {
 
     // **Optimized Prompt**
     const reportWrapperPrompt = `
-    You are an AI assistant for reporting missing persons. Your task is to gather these details in the user's language:
-    - Name, Age, Date of Disappearance
-    - Last Seen Location, Home Address, Frequent Places
-    - Physical Description, Clothing Last Seen, Notes
-    - Issuer’s Name, Mobile, Email  
-  
-    **Instructions:**
-    - Only ask for missing details. Do not repeat previously provided information.
-    - If the user asks about our service (e.g., how missing persons are found, response time, or how we will contact them), provide clear and helpful answers.
-    - If the user asks unrelated questions that are not about the service, politely bring them back on topic.
-    - Once all details are collected, display the full report only once for confirmation:
-      "Please confirm the following details:\n\n[full report here]\n\nIs everything correct?"
-    - If the user confirms, respond with:
-      "#find#~name~age~dateOfDisappearance~lastSeenLocation~homeAddress~frequentPlaces~physicalDescription~clothingLastSeen~notes~issuerName~mobile~email~".
-
-    **Service Information:**  
-    - We use advanced facial recognition and web crawling to search for missing persons.
-  
-    **Conversation History:**
-    ${conversationHistory}
+      You are an AI assistant for reporting missing persons. Your task is to gather these details in the user's language:
+      - Name, Age, Date of Disappearance
+      - Image of the missing person
+      - Last Seen Location, Home Address, Frequent Places
+      - Physical Description, Clothing Last Seen, Notes
+      - Issuer’s Name, Mobile, Email  
     
-    User: "${input}"
-  `;
+      **Instructions:**
+      - Convert the date format to YYYY-MM-DD
+      - Give a properly formatted response.
+      - Only ask for missing details. Do not repeat previously provided information.
+      - If the user asks about our service (e.g., how missing persons are found, response time, or how we will contact them), provide clear and helpful answers.
+      - If the user asks unrelated questions that are not about the service, politely bring them back on topic.
+      - Once all details are collected, display the full report only once for confirmation:
+        "Please confirm the following details:\n\n[full report here]\n\nIs everything correct?"
+      - If the user confirms, respond with:
+        "#find#~name~age~dateOfDisappearance~lastSeenLocation~homeAddress~frequentPlaces~physicalDescription~clothingLastSeen~notes~issuerName~mobile~email~".
+
+      **Service Information:**  
+      - We use advanced facial recognition and web crawling to search for missing persons.
+    
+      **Conversation History:**
+      ${conversationHistory}
+      
+      User: "${input}"
+    `;
 
     // Fetch Gemini API response with wrapped prompt
     const botResponseText = await fetchGeminiResponse(reportWrapperPrompt);
@@ -128,9 +132,15 @@ const Chatbot = () => {
       data.append("issuer_name", issuerName);
       data.append("status", "missing");
 
-      data.append("image", "");
+      if (uploadedImage) {
+        data.append("image", uploadedImage);
+      } else {
+        data.append("image", "");
+      }
 
       try {
+        console.log(data);
+
         const response = await addMissingPerson(data);
         console.log("Missing person report submitted successfully:", response);
       } catch (error) {
@@ -168,21 +178,39 @@ const Chatbot = () => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setUploadedImage(file);
+
       const reader = new FileReader();
       reader.onload = () => {
+        const imageData = reader.result as string;
+
+        setPreviewImage(imageData); // base64 string
         setMessages((prev) => [
           ...prev,
-          { sender: "user", image: reader.result as string },
+          {
+            text: "Here is the image",
+            sender: "user",
+            image: "Image Received",
+          },
         ]);
+        setTimeout(scrollToBottom, 100);
+
+        setIsTyping(true);
+
+        const botResponseText =
+          "Image Received. Now Provide the rest of the details";
+        setMessages((prev) => [
+          ...prev,
+          { text: botResponseText, sender: "bot" },
+        ]);
+
+        setIsTyping(false);
         setTimeout(scrollToBottom, 100);
       };
       reader.readAsDataURL(file);
     }
 
     if (!event.target.files) return;
-
-    // const selectedFiles = Array.from(event.target.files);
-    // setMissingPersonImage((prevImages) => [...prevImages, ...selectedFiles]);
   };
 
   const clearChat = () => {
@@ -255,14 +283,14 @@ const Chatbot = () => {
                   : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
               }`}
             >
-              {msg.image ? (
+              {msg.text && <ReactMarkdown>{msg.text}</ReactMarkdown>}
+
+              {msg.image === "Image Received" && (
                 <img
-                  src={msg.image}
+                  src={previewImage || ""}
                   alt="Uploaded"
-                  className="max-w-[200px] rounded-3xl"
+                  className="mt-2 rounded-xl max-w-full max-h-64"
                 />
-              ) : (
-                <ReactMarkdown>{msg.text}</ReactMarkdown>
               )}
             </span>
           ))}

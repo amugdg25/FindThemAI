@@ -32,10 +32,12 @@ module.exports = async function handler(req, res) {
     }
 
     res.json({
-      response: data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that.",
+      response:
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Sorry, I couldn't process that.",
     });
   } catch (error) {
     console.error("Error fetching Gemini response:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
