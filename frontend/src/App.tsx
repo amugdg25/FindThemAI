@@ -29,18 +29,18 @@ function App() {
         <Routes>
           <Route path="/" index element={<Landing />} />
           <Route path="/adminlogin" index element={<Login />} />
-          <Route path="/signup" index element={<Signup />} />
+          <Route path="/adminsignup" index element={<Signup />} />
           <Route
             path="/reportedcases"
             element={<ReportedCases isAuthenticated={isAuthenticated} />}
           />
           <Route path="/instantsearch" element={<InstantSearch />} />
           <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/reportpage" element={<ReportPage />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/reportpage" element={<ReportPage />} />
           </Route>
         </Routes>
       </div>
