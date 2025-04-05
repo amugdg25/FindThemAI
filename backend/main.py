@@ -12,7 +12,11 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],        # Allow all origins (change this for security)
+    allow_origins=[
+        "https://findthem-ai.vercel.app",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000"
+    ],                          # Allow specific origins (change this for security)
     allow_credentials=True,     # Allow credentials (cookies, authentication)
     allow_methods=["*"],        # Allow all HTTP methods
     allow_headers=["*"],        # Allow all headers
@@ -20,10 +24,3 @@ app.add_middleware(
 
 # Include the API router
 app.include_router(router)
-
-import uvicorn
-import os
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))  # Set 8080 as default
-    uvicorn.run(app, host="0.0.0.0", port=port)

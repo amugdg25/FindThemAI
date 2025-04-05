@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     # Model Path
     MODEL_PATH: str
 
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+
     # Load from .env file
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

@@ -10,6 +10,8 @@ from application.face_matching import match_face
 import numpy as np
 from base64 import b64encode
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from typing import Optional
+from fastapi import Request
 
 
 router = APIRouter(prefix="/api/v1")
@@ -44,16 +46,30 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_user(
+    request: Request,
+    token: Optional[str] = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
+):
+    # Allow preflight request through
+    if request.method == "OPTIONS":
+        return None
+
+    if not token:
+        raise HTTPException(status_code=401, detail="Token missing")
+
     payload = auth.decode_access_token(token)
     if not payload:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    
+        raise HTTPException(status_code=401, detail="Invalid token")
+
     user = crud.get_user_by_username(db, payload["sub"])
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(status_code=404, detail="User not found")
 
     return user
+
+
+
 
 @router.get("/protected")
 def protected_route(current_user: schemas.UserResponse = Depends(get_current_user)):
@@ -67,14 +83,14 @@ def read_root():
 
 ### USER ENDPOINTS ###
 @router.get("/users/{user_id}", response_model=schemas.UserResponse)
-def get_user(user_id: int, db: Session = Depends(get_db)):
+def get_user(user_id: int, db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     user = crud.get_user(db, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
 @router.get("/users", response_model=List[schemas.UserResponse])
-def get_users(db: Session = Depends(get_db)):
+def get_users(db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     return crud.get_users(db)
 
 
@@ -95,7 +111,8 @@ async def create_missing_person(
     issuer_name: str = Form(...),
     status: str = Form(None),
     image: UploadFile = File(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: schemas.UserResponse = Depends(get_current_user)
 ):
     image_data = await image.read()
     new_person = schemas.MissingPersonCreate(
@@ -117,7 +134,7 @@ async def create_missing_person(
     return {"message": "Missing person entry created successfully", "id": created_person.id}
 
 @router.get("/missing-persons/{person_id}", response_model=schemas.MissingPersonResponse)
-def get_missing_person_info(person_id: int, db: Session = Depends(get_db)):
+def get_missing_person_info(person_id: int, db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     person = crud.get_missing_person(db, person_id)    
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
@@ -126,14 +143,14 @@ def get_missing_person_info(person_id: int, db: Session = Depends(get_db)):
     return person
 
 @router.get("/missing-persons/{person_id}/image")
-def get_missing_person_image(person_id: int, db: Session = Depends(get_db)):
+def get_missing_person_image(person_id: int, db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     person = crud.get_missing_person(db, person_id)
     if not person or not person.image:
         raise HTTPException(status_code=404, detail="Image not found")
     return Response(content=person.image, media_type="image/jpeg")
 
 @router.get("/missing-persons", response_model=List[schemas.MissingPersonResponse])
-def get_missing_persons(db: Session = Depends(get_db)):
+def get_missing_persons(db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     missing_persons = crud.get_missing_persons(db)
     
     for person in missing_persons:
@@ -142,7 +159,7 @@ def get_missing_persons(db: Session = Depends(get_db)):
     return missing_persons
 
 @router.delete("/missing-persons/{person_id}")
-def delete_missing_person(person_id: int, db: Session = Depends(get_db)):
+def delete_missing_person(person_id: int, db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     deleted = crud.delete_missing_person(db, person_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Person not found")
@@ -150,7 +167,7 @@ def delete_missing_person(person_id: int, db: Session = Depends(get_db)):
 
 ### FOUND PERSON ENDPOINTS ###
 @router.post("/found-person", response_model= schemas.FoundPersonResponse)
-async def get_found_person_info(image: UploadFile = File(...), db: Session = Depends(get_db)):
+async def get_found_person_info(image: UploadFile = File(...), db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(get_current_user)):
     try:
         image_data = await image.read()
 
