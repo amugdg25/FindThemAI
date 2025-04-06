@@ -20,17 +20,9 @@ export const fetchGeminiResponse = async (userMessage: string) => {
 
 const API_BASE_URL = `${import.meta.env.VITE_BACKEND_BASE_API_URL}/api/v1`;
 
-const getAuthHeaders = (): Record<string, string> => {
-  const token = localStorage.getItem("token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
-
-
 export const fetchMissingPersons = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/missing-persons`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(`${API_BASE_URL}/missing-persons`);
     return await response.json();
   } catch (error) {
     console.error("Error fetching missing persons:", error);
@@ -40,9 +32,7 @@ export const fetchMissingPersons = async () => {
 
 export const fetchMissingPersonById = async (id: number) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/missing-persons/${id}` , {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(`${API_BASE_URL}/missing-persons/${id}`);
     return await response.json();
   } catch (error) {
     console.error("Error fetching missing person:", error);
@@ -54,7 +44,6 @@ export const addMissingPerson = async (formData: FormData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/create-missing-person`, {
       method: "POST",
-      headers: getAuthHeaders(),
       body: formData,
     });
     return await response.json();
@@ -68,7 +57,6 @@ export const deleteMissingPerson = async (id: number) => {
   try {
     const response = await fetch(`${API_BASE_URL}/missing-persons/${id}`, {
       method: "DELETE",
-      headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -89,7 +77,6 @@ export const matchFace = async (file: File) => {
 
     const response = await fetch(`${API_BASE_URL}/found-person`, {
       method: "POST",
-      headers: getAuthHeaders(),
       body: formData,
     });
 
