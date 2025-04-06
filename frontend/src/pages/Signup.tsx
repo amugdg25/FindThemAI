@@ -35,7 +35,7 @@ const Signup = () => {
 
     if (response?.id) {
       showToast("Signup successful! Please log in.", "success");
-      navigate("/login");
+      navigate("/adminlogin");
     } else {
       setError(response?.detail || "❌ Signup failed. Try again.");
     }
