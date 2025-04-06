@@ -28,18 +28,18 @@ function App() {
       <div className="flex-1 w-full">
         <Routes>
           <Route path="/" index element={<Landing />} />
-          <Route path="/adminlogin" index element={<Login />} />
-          <Route path="/adminsignup" index element={<Signup />} />
+          <Route path="/adminlogin" element={<Login />} />
+          <Route path="/adminsignup" element={<Signup />} />
           <Route
             path="/reportedcases"
             element={<ReportedCases isAuthenticated={isAuthenticated} />}
           />
           <Route path="/instantsearch" element={<InstantSearch />} />
-          <Route path="/chatbot" element={<Chatbot />} />
-          <Route path="/reportpage" element={<ReportPage />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
+            <Route path="/chatbot" element={<Chatbot />} />
+            <Route path="/reportpage" element={<ReportPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
