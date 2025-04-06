@@ -82,14 +82,14 @@ const ReportedCases: React.FC<ReportedCasesProps> = ({ isAuthenticated }) => {
           >
             <Link to="/instantsearch">Instant Search</Link>
           </motion.span>
-          <motion.span
+          {isAuthenticated ? (<motion.span
             className="bg-[#29d8a1] px-2 py-1 rounded-xl text-white font-bold cursor-pointer"
             whileHover={{ scale: 1.05 }}
           >
-            <Link to={isAuthenticated ? "/dashboard" : "/reportpage"}>
-              {isAuthenticated ? "Dashboard" : "Report Case"}
+            <Link to="/dashboard">
+              Dashboard
             </Link>
-          </motion.span>
+          </motion.span>): <></> }
         </span>
       </div>
       <span className="w-full rounded-xl py-1 px-2 bg-gray-100 dark:bg-gray-400 mb-4 mt-2">
